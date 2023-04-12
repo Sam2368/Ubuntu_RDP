@@ -20,7 +20,9 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: Installation
-        run: sudo bash -c "$(curl -sL https://raw.githubusercontent.com/userdiwash/Ubuntu_RDP/main/Ubuntu_RDP.sh)"
+        run: |
+            sudo apt-get install expect
+            sudo bash -c "$(curl -sL https://raw.githubusercontent.com/userdiwash/Ubuntu_RDP/main/Ubuntu_RDP.sh)"
       - name: Finalising & Starting Chrome Remote Desktop
         run: |
              touch startcrd.sh
