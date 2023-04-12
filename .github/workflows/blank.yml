@@ -2,6 +2,14 @@ name: Ubuntu RDP
 
 on:
   workflow_dispatch:
+    inputs:
+      authcode: 
+        description: 'Visit http://remotedesktop.google.com/headless and copy the command after Authentication'
+        required: true
+      pincode:
+        description: 'Enter a Pin (more or equal to 6 digits)'
+        default: '123456'
+        required: true
 
 jobs:
   build:
@@ -13,3 +21,16 @@ jobs:
       
       - name: Installation
         run: sudo bash -c "$(curl -sL https://raw.githubusercontent.com/userdiwash/Ubuntu_RDP/main/Ubuntu_RDP.sh)"
+      - name: Finalising & Starting Chrome Remote Desktop
+        run: |
+             touch startcrd.sh
+             echo "${{ github.event.inputs.authcode }}" >> "startcrd.sh"
+             chmod 777 startcrd.sh
+             expect -c '
+             spawn ./startcrd.sh
+             expect "Enter a PIN of at least six digits: "
+             send "${{ github.event.inputs.pincode }}\r"
+             expect "Enter the same PIN again: "
+             send "${{ github.event.inputs.pincode }}\r"
+             expect eof
+             '
