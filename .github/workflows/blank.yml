@@ -21,7 +21,7 @@ jobs:
       
       - name: Installation
         run: |
-            sudo apt-get install expect
+            sudo apt-get install expect -y
             sudo bash -c "$(curl -sL https://raw.githubusercontent.com/userdiwash/Ubuntu_RDP/main/Ubuntu_RDP.sh)"
       - name: Finalising & Starting Chrome Remote Desktop
         run: |
